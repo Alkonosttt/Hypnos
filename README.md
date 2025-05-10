@@ -1,3 +1,3 @@
 # hypnos
 
-A new Flutter project.
+A curated library of soothing ambient sounds to help you rest, focus and relax.
