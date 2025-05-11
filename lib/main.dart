@@ -4,6 +4,7 @@ import 'package:hypnos/home.dart';
 // splash screen
 import 'package:hypnos/splash.dart';
 
+// TODO: open in Xcode and edit ios/Runner/LaunchScreen.storyboard
 void main() {
   runApp(const MainApp());
 }
@@ -32,6 +33,7 @@ class _MainAppState extends State<MainApp> {
 
   Widget build(BuildContext context) {
     return MaterialApp(
+      themeMode: ThemeMode.dark,
       title: 'Hypnos',
       theme: ThemeData(
         brightness: Brightness.dark,
