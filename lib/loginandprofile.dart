@@ -10,6 +10,6 @@ class LoginProfileScreen extends StatefulWidget {
 class _LoginProfileScreenState extends State<LoginProfileScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return const Center(child: Text('Login and Profile screen'));
   }
 }
