@@ -6,10 +6,10 @@ class GNavBar extends StatelessWidget {
   final int selectedIndex;
   final Function(int) onTabChange;
   const GNavBar({
-    Key? key,
+    super.key,
     required this.selectedIndex,
     required this.onTabChange,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
