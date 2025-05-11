@@ -5,6 +5,8 @@ import 'package:hypnos/favourites.dart';
 import 'package:hypnos/settings.dart';
 // Google Nav Bar implementation
 import 'package:hypnos/gnavbar.dart';
+// splash screen
+import 'package:hypnos/splash.dart';
 
 void main() {
   runApp(const MainApp());
@@ -46,11 +48,12 @@ class _MainAppState extends State<MainApp> {
         ),
       ),
       home: Scaffold(
-        body: _screens[_selectedIndex],
-        bottomNavigationBar: GNavBar(
+        //body: _screens[_selectedIndex],
+        body: SplashScreen(),
+        /*bottomNavigationBar: GNavBar(
           selectedIndex: _selectedIndex,
           onTabChange: _handleTabChange,
-        ),
+        ),*/
       ),
     );
   }
