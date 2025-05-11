@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-// app screens
-import 'package:hypnos/library.dart';
-import 'package:hypnos/favourites.dart';
-import 'package:hypnos/settings.dart';
-// Google Nav Bar implementation
-import 'package:hypnos/gnavbar.dart';
+// home screen
+import 'package:hypnos/home.dart';
 // splash screen
 import 'package:hypnos/splash.dart';
 
@@ -20,23 +16,20 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-  // for navigation >>
-  int _selectedIndex = 0;
-
-  final List<Widget> _screens = [
-    LibraryPage(),
-    FavouritesPage(),
-    SettingsPage(),
-  ];
-
-  void _handleTabChange(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-  // for navigation <<
+  // handling the display of the splash screen >>
+  bool _showSplash = true;
 
   @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 3), () {
+      setState(() {
+        _showSplash = false;
+      });
+    });
+  }
+  // handling the display of the splash screen <<
+
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Hypnos',
@@ -47,14 +40,7 @@ class _MainAppState extends State<MainApp> {
           displayLarge: TextStyle(color: Colors.white),
         ),
       ),
-      home: Scaffold(
-        //body: _screens[_selectedIndex],
-        body: SplashScreen(),
-        /*bottomNavigationBar: GNavBar(
-          selectedIndex: _selectedIndex,
-          onTabChange: _handleTabChange,
-        ),*/
-      ),
+      home: _showSplash ? SplashScreen() : HomeScreen(),
     );
   }
 }
