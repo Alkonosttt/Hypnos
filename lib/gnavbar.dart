@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GNavBar extends StatelessWidget {
   final int selectedIndex;
@@ -18,6 +19,7 @@ class GNavBar extends StatelessWidget {
         selectedIndex: selectedIndex,
         onTabChange: onTabChange,
         tabBackgroundColor: Color(0xFF942F67),
+        textStyle: GoogleFonts.comfortaa(),
         gap: 10,
         padding: EdgeInsets.all(8),
         tabs: [

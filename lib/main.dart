@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:google_nav_bar/google_nav_bar.dart';
 // app screens
 import 'package:hypnos/library.dart';
 import 'package:hypnos/favourites.dart';
@@ -55,21 +53,3 @@ class _MainAppState extends State<MainApp> {
     );
   }
 }
-
-/*
-Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Hypnos',
-      theme: ThemeData(
-        brightness: Brightness.dark,
-        textTheme: const TextTheme(
-          bodyMedium: TextStyle(color: Colors.white),
-          displayLarge: TextStyle(color: Colors.white),
-        ),
-      ),
-      home: Scaffold(
-        
-      ),
-    );
-  }
-*/
