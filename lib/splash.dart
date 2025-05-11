@@ -35,7 +35,7 @@ class _SplashScreenState extends State<SplashScreen> {
                       Padding(
                         padding: const EdgeInsets.fromLTRB(10, 10, 0, 0),
                         child: Text(
-                          'Hypnos',
+                          'HYPNOS',
                           style: GoogleFonts.instrumentSerif(fontSize: 60),
                         ),
                       ),
