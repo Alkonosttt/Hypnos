@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hypnos/library.dart';
 import 'package:hypnos/favourites.dart';
 import 'package:hypnos/settings.dart';
-//Google Nav Bar implementation
+// Google Nav Bar implementation
 import 'package:hypnos/gnavbar.dart';
 
 void main() {
@@ -18,6 +18,7 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+  // for navigation >>
   int _selectedIndex = 0;
 
   final List<Widget> _screens = [
@@ -31,6 +32,7 @@ class _MainAppState extends State<MainApp> {
       _selectedIndex = index;
     });
   }
+  // for navigation <<
 
   @override
   Widget build(BuildContext context) {

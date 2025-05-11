@@ -26,6 +26,7 @@ class _LibraryPageState extends State<LibraryPage> {
                     style: GoogleFonts.instrumentSerif(fontSize: 45),
                   ),
                 ),
+                // placeholder for library items
                 Text('plaques', style: GoogleFonts.comfortaa(fontSize: 20)),
               ],
             ),
