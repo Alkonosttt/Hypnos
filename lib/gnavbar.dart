@@ -1,0 +1,31 @@
+import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
+
+class GNavBar extends StatelessWidget {
+  final int selectedIndex;
+  final Function(int) onTabChange;
+  const GNavBar({
+    Key? key,
+    required this.selectedIndex,
+    required this.onTabChange,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+      child: GNav(
+        selectedIndex: selectedIndex,
+        onTabChange: onTabChange,
+        tabBackgroundColor: Color(0xFF942F67),
+        gap: 10,
+        padding: EdgeInsets.all(8),
+        tabs: [
+          GButton(icon: Icons.music_note, text: 'library'),
+          GButton(icon: Icons.favorite, text: 'favourites'),
+          GButton(icon: Icons.settings, text: 'settings'),
+        ],
+      ),
+    );
+  }
+}
