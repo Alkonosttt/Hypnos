@@ -29,7 +29,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: GoogleFonts.instrumentSerif(fontSize: 45),
                 ),
               ),
-              // placeholder for library items
               TextButton.icon(
                 onPressed: () {
                   Navigator.push(
@@ -74,14 +73,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   'credits',
                   style: GoogleFonts.comfortaa(fontSize: 30),
                 ),
-              ),
-              TextButton.icon(
-                onPressed: () {},
-                label: Text(
-                  'GitHub',
-                  style: GoogleFonts.comfortaa(fontSize: 30),
-                ),
-                icon: Icon(Icons.gradient, size: 30),
               ),
             ],
           ),
