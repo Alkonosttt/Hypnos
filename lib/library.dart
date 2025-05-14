@@ -1,5 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:audioplayers/audioplayers.dart';
+
+class SoundItem {
+  final String name;
+  final String imagePath;
+  final String audioPath;
+
+  bool isPlaying;
+  double volume;
+  AudioPlayer player;
+
+  SoundItem({
+    required this.name,
+    required this.imagePath,
+    required this.audioPath,
+    this.isPlaying = false,
+    this.volume = 1.0,
+  }) : player = AudioPlayer();
+}
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
