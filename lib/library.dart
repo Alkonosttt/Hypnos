@@ -53,6 +53,51 @@ class _LibraryPageState extends State<LibraryPage> {
   late List<SoundItem> items;
 
   @override
+  void initState() {
+    super.initState();
+    items =
+        soundNames.map((name) {
+          return SoundItem(
+            name: name,
+            imagePath: 'assets/images/photos/$name.jpg',
+            audioPath: 'assets/audio/$name.mp3',
+          );
+        }).toList();
+  }
+
+  void togglePlay(SoundItem item) async {
+    if (item.isPlaying) {
+      await item.player.pause();
+    } else {
+      await item.player.setSource(
+        AssetSource(item.audioPath.replaceFirst('assets/', '')),
+      );
+      await item.player.setVolume(item.volume);
+      await item.player.setReleaseMode(ReleaseMode.loop);
+      await item.player.resume();
+    }
+
+    setState(() {
+      item.isPlaying = !item.isPlaying;
+    });
+  }
+
+  void changeVolume(SoundItem item, double volume) async {
+    await item.player.setVolume(volume);
+    setState(() {
+      item.volume = volume;
+    });
+  }
+
+  @override
+  void dispose() {
+    for (var item in items) {
+      item.player.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Row(
@@ -60,18 +105,64 @@ class _LibraryPageState extends State<LibraryPage> {
           Expanded(flex: 1, child: SizedBox()),
           Expanded(
             flex: 8,
-            child: Column(
-              children: [
-                Container(
-                  margin: EdgeInsets.fromLTRB(0, 70, 0, 50),
-                  child: Text(
-                    'AMBIENT LIBRARY',
-                    style: GoogleFonts.instrumentSerif(fontSize: 45),
+            child: GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+              ),
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final item = items[index];
+                return Card(
+                  elevation: 4,
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () => togglePlay(item),
+                        child: Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            Image.asset(
+                              item.imagePath,
+                              height: 120,
+                              fit: BoxFit.cover,
+                            ),
+                            if (!item.isPlaying)
+                              Icon(
+                                Icons.play_circle_fill,
+                                size: 48,
+                                color: Colors.white,
+                              ),
+                            if (item.isPlaying)
+                              Icon(
+                                Icons.pause_circle_filled,
+                                size: 48,
+                                color: Colors.white,
+                              ),
+                          ],
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(5),
+                        child: Column(
+                          children: [
+                            Text(
+                              item.name,
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Slider(
+                              value: item.volume,
+                              onChanged: (v) => changeVolume(item, v),
+                              min: 0.0,
+                              max: 1.0,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                ),
-                // placeholder for library items
-                Text('plaques', style: GoogleFonts.comfortaa(fontSize: 20)),
-              ],
+                );
+              },
             ),
           ),
           Expanded(flex: 1, child: SizedBox()),
