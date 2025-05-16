@@ -28,6 +28,7 @@ class LibraryGrid extends StatefulWidget {
 }
 
 class _LibraryGridState extends State<LibraryGrid> {
+  // mapping between the audio asset name and the corresponding display name
   final Map<String, String> displayNames = {
     '40_hz_binaural.mp3': '40 HZ',
     'airplane_ambience.mp3': 'airplane',
@@ -60,7 +61,6 @@ class _LibraryGridState extends State<LibraryGrid> {
             audioPath: 'assets/audio/${entry.key}',
             imagePath:
                 'assets/images/photos/${entry.key.replaceAll('.mp3', '.jpg')}',
-
             displayName: entry.value,
           );
         }).toList();
@@ -74,6 +74,7 @@ class _LibraryGridState extends State<LibraryGrid> {
         AssetSource(item.audioPath.replaceFirst('assets/', '')),
       );
       await item.player.setVolume(item.volume);
+      // loops the audio
       await item.player.setReleaseMode(ReleaseMode.loop);
       await item.player.resume();
     }
@@ -102,6 +103,7 @@ class _LibraryGridState extends State<LibraryGrid> {
   Widget build(BuildContext context) {
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        // two columns of library items
         crossAxisCount: 2,
         childAspectRatio: 0.75,
       ),
@@ -114,6 +116,7 @@ class _LibraryGridState extends State<LibraryGrid> {
             children: [
               GestureDetector(
                 onTap: () => togglePlay(item),
+                // play icon overlayed on the photo
                 child: Stack(
                   alignment: Alignment.center,
                   children: [
@@ -134,13 +137,15 @@ class _LibraryGridState extends State<LibraryGrid> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.all(5),
+                padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
                 child: Column(
                   children: [
+                    // display name
                     Text(
                       item.displayName,
                       style: GoogleFonts.instrumentSerif(fontSize: 25),
                     ),
+                    // volume slider
                     Slider(
                       value: item.volume,
                       onChanged: (v) => changeVolume(item, v),
