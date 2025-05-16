@@ -141,9 +141,12 @@ class _LibraryGridState extends State<LibraryGrid> {
                 child: Column(
                   children: [
                     // display name
-                    Text(
-                      item.displayName,
-                      style: GoogleFonts.instrumentSerif(fontSize: 25),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 15),
+                      child: Text(
+                        item.displayName,
+                        style: GoogleFonts.comfortaa(fontSize: 20),
+                      ),
                     ),
                     // volume slider
                     Slider(
