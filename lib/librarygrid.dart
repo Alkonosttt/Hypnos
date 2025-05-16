@@ -3,18 +3,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 class SoundItem {
-  final String name;
   final String imagePath;
   final String audioPath;
+  final String displayName;
 
   bool isPlaying;
   double volume;
   AudioPlayer player;
 
   SoundItem({
-    required this.name,
     required this.imagePath,
     required this.audioPath,
+    required this.displayName,
     this.isPlaying = false,
     this.volume = 1.0,
   }) : player = AudioPlayer();
@@ -28,39 +28,40 @@ class LibraryGrid extends StatefulWidget {
 }
 
 class _LibraryGridState extends State<LibraryGrid> {
-  final List<String> soundNames = [
-    '40_hz_binaural',
-    'airplane_ambience',
-    'calming_rain',
-    'ceiling_fan_closeup_hum',
-    'cicada_buzzing',
-    'creek',
-    'cricket',
-    'fire_sound',
-    'forest_bird_harmonies',
-    'frogs_croaking',
-    'inside_old_train',
-    'light_rain',
-    'ocean_waves',
-    'pendulum_clock_tic_tac',
-    'soft_wind',
-    'swamp_woods',
-    'thunderstorm',
-    'ticking_clock',
-    'typing_on_laptop_keyboard',
-    'wind_blowing',
-  ];
-  late List<SoundItem> items;
-
+  final Map<String, String> displayNames = {
+    '40_hz_binaural.mp3': '40 HZ',
+    'airplane_ambience.mp3': 'airplane',
+    'calming_rain.mp3': 'downpour',
+    'ceiling_fan_closeup_hum.mp3': 'ceiling fan',
+    'cicada_buzzing.mp3': 'cicada',
+    'creek.mp3': 'creek',
+    'cricket.mp3': 'cricket',
+    'fire_sound.mp3': 'fire',
+    'forest_bird_harmonies.mp3': 'tropical birds',
+    'frogs_croaking.mp3': 'frogs',
+    'inside_old_train.mp3': 'old train',
+    'light_rain.mp3': 'light rain',
+    'ocean_waves.mp3': 'ocean waves',
+    'pendulum_clock_tic_tac.mp3': 'pendulum clock',
+    'soft_wind.mp3': 'soft wind',
+    'swamp_woods.mp3': 'swamp woods',
+    'thunderstorm.mp3': 'thunderstorm',
+    'ticking_clock.mp3': 'clock',
+    'typing_on_laptop_keyboard.mp3': 'laptop keyboard',
+    'wind_blowing.mp3': 'wind',
+  };
+  late List<SoundItem> audioItems;
   @override
   void initState() {
     super.initState();
-    items =
-        soundNames.map((name) {
+    audioItems =
+        displayNames.entries.map((entry) {
           return SoundItem(
-            name: name,
-            imagePath: 'assets/images/photos/$name.jpg',
-            audioPath: 'assets/audio/$name.mp3',
+            audioPath: 'assets/audio/${entry.key}',
+            imagePath:
+                'assets/images/photos/${entry.key.replaceAll('.mp3', '.jpg')}',
+
+            displayName: entry.value,
           );
         }).toList();
   }
@@ -91,7 +92,7 @@ class _LibraryGridState extends State<LibraryGrid> {
 
   @override
   void dispose() {
-    for (var item in items) {
+    for (var item in audioItems) {
       item.player.dispose();
     }
     super.dispose();
@@ -104,9 +105,9 @@ class _LibraryGridState extends State<LibraryGrid> {
         crossAxisCount: 2,
         childAspectRatio: 0.75,
       ),
-      itemCount: items.length,
+      itemCount: audioItems.length,
       itemBuilder: (context, index) {
-        final item = items[index];
+        final item = audioItems[index];
         return Card(
           elevation: 4,
           child: Column(
@@ -137,7 +138,7 @@ class _LibraryGridState extends State<LibraryGrid> {
                 child: Column(
                   children: [
                     Text(
-                      item.name,
+                      item.displayName,
                       style: GoogleFonts.instrumentSerif(fontSize: 25),
                     ),
                     Slider(
