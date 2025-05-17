@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class FavouritesPage extends StatefulWidget {
   const FavouritesPage({super.key});
@@ -10,6 +11,18 @@ class FavouritesPage extends StatefulWidget {
 class _FavouritesPageState extends State<FavouritesPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text('Favourites Page'));
+    return Scaffold(
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 70, 0, 50),
+            child: Text(
+              'FAVOURITES',
+              style: GoogleFonts.instrumentSerif(fontSize: 45),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
