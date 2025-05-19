@@ -31,6 +31,7 @@ class _MainAppState extends State<MainApp> {
   }
   // handling the display of the splash screen <<
 
+  @override
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: ThemeMode.dark,
