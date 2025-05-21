@@ -1,35 +1,50 @@
-// for the Timer
-import 'dart:async';
-// audio player itself
 import 'package:audioplayers/audioplayers.dart';
 
-// creates a global audio service and a timer that will play regardless of
-// which screen is currently active
-class AudioService {
-  static final AudioService _instance = AudioService._internal();
-  factory AudioService() => _instance;
-  AudioService._internal();
+class GlobalAudioService {
+  static final GlobalAudioService _instance = GlobalAudioService._internal();
+  factory GlobalAudioService() => _instance;
+  GlobalAudioService._internal();
 
-  final AudioPlayer _player = AudioPlayer();
-  Timer? _stopTimer;
+  final Map<String, AudioPlayer> _players = {};
+  final Map<String, double> _volumes = {};
+  final Map<String, bool> _isPlaying = {};
 
-  // pointing to which audio asset to play
-  Future<void> play(String url) async {
-    await _player.play(AssetSource(url));
+  Future<void> play(String audioPath, {double volume = 1.0}) async {
+    _players[audioPath] ??= AudioPlayer();
+    final player = _players[audioPath]!;
+    await player.setSource(AssetSource(audioPath.replaceFirst('assets/', '')));
+    await player.setReleaseMode(ReleaseMode.loop);
+    await player.setVolume(volume);
+    await player.resume();
+    _volumes[audioPath] = volume;
+    _isPlaying[audioPath] = true;
   }
 
-  // to stop with the timer
-  void stop() {
-    _player.stop();
-    _stopTimer?.cancel();
+  Future<void> pause(String audioPath) async {
+    final player = _players[audioPath];
+    if (player != null) {
+      await player.pause();
+      _isPlaying[audioPath] = false;
+    }
   }
 
-  void setTimer(Duration duration) {
-    _stopTimer?.cancel();
-    _stopTimer = Timer(duration, () {
-      stop();
-    });
+  Future<void> setVolume(String audioPath, double volume) async {
+    final player = _players[audioPath];
+    if (player != null) {
+      await player.setVolume(volume);
+      _volumes[audioPath] = volume;
+    }
   }
 
-  bool get isPlaying => _player.state == PlayerState.playing;
+  bool isPlaying(String audioPath) => _isPlaying[audioPath] ?? false;
+  double volume(String audioPath) => _volumes[audioPath] ?? 1.0;
+
+  Future<void> disposeAll() async {
+    for (var player in _players.values) {
+      await player.dispose();
+    }
+    _players.clear();
+    _volumes.clear();
+    _isPlaying.clear();
+  }
 }

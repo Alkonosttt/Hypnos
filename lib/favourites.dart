@@ -17,10 +17,11 @@ class _FavouritesPageState extends State<FavouritesPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 70, 0, 50),
             child: Text(
-              'FAVOURITES',
+              'Favourites',
               style: GoogleFonts.caesarDressing(fontSize: 45),
             ),
           ),
+          Expanded(child: Placeholder()),
         ],
       ),
     );

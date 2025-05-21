@@ -25,7 +25,7 @@ class _SettingsPageState extends State<SettingsPage> {
               Container(
                 margin: EdgeInsets.fromLTRB(0, 70, 0, 50),
                 child: Text(
-                  'SETTINGS',
+                  'Settings',
                   style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),

@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:audioplayers/audioplayers.dart';
+import 'globalaudioplayerservice.dart';
 
 class SoundItem {
+  // image names match the corresponding audio names
   final String imagePath;
   final String audioPath;
   final String displayName;
-
-  bool isPlaying;
-  double volume;
-  AudioPlayer player;
 
   SoundItem({
     required this.imagePath,
     required this.audioPath,
     required this.displayName,
-    this.isPlaying = false,
-    this.volume = 1.0,
-  }) : player = AudioPlayer();
+  });
 }
 
 class LibraryGrid extends StatefulWidget {
@@ -59,6 +54,7 @@ class _LibraryGridState extends State<LibraryGrid> {
         displayNames.entries.map((entry) {
           return SoundItem(
             audioPath: 'assets/audio/${entry.key}',
+            // audio names match the image names, replacing the format
             imagePath:
                 'assets/images/photos/${entry.key.replaceAll('.mp3', '.jpg')}',
             displayName: entry.value,
@@ -67,36 +63,21 @@ class _LibraryGridState extends State<LibraryGrid> {
   }
 
   void togglePlay(SoundItem item) async {
-    if (item.isPlaying) {
-      await item.player.pause();
+    final audioPath = item.audioPath;
+    final service = GlobalAudioService();
+    if (service.isPlaying(audioPath)) {
+      await service.pause(audioPath);
     } else {
-      await item.player.setSource(
-        AssetSource(item.audioPath.replaceFirst('assets/', '')),
-      );
-      await item.player.setVolume(item.volume);
-      // loops the audio
-      await item.player.setReleaseMode(ReleaseMode.loop);
-      await item.player.resume();
+      await service.play(audioPath);
     }
-
-    setState(() {
-      item.isPlaying = !item.isPlaying;
-    });
+    // forcing UI to update
+    setState(() {});
   }
 
   void changeVolume(SoundItem item, double volume) async {
-    await item.player.setVolume(volume);
-    setState(() {
-      item.volume = volume;
-    });
-  }
-
-  @override
-  void dispose() {
-    for (var item in audioItems) {
-      item.player.dispose();
-    }
-    super.dispose();
+    await GlobalAudioService().setVolume(item.audioPath, volume);
+    // forcing UI to update
+    setState(() {});
   }
 
   @override
@@ -110,6 +91,8 @@ class _LibraryGridState extends State<LibraryGrid> {
       itemCount: audioItems.length,
       itemBuilder: (context, index) {
         final item = audioItems[index];
+        final isPlaying = GlobalAudioService().isPlaying(item.audioPath);
+        final volume = GlobalAudioService().volume(item.audioPath);
         return Card(
           elevation: 4,
           child: Column(
@@ -121,13 +104,13 @@ class _LibraryGridState extends State<LibraryGrid> {
                   alignment: Alignment.center,
                   children: [
                     Image.asset(item.imagePath, height: 120, fit: BoxFit.cover),
-                    if (!item.isPlaying)
+                    if (!isPlaying)
                       Icon(
                         Icons.play_circle_fill,
                         size: 48,
                         color: Colors.white,
                       ),
-                    if (item.isPlaying)
+                    if (isPlaying)
                       Icon(
                         Icons.pause_circle_filled,
                         size: 48,
@@ -150,7 +133,7 @@ class _LibraryGridState extends State<LibraryGrid> {
                     ),
                     // volume slider
                     Slider(
-                      value: item.volume,
+                      value: volume,
                       onChanged: (v) => changeVolume(item, v),
                       min: 0.0,
                       max: 1.0,
