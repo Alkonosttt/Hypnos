@@ -26,7 +26,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 margin: EdgeInsets.fromLTRB(0, 70, 0, 50),
                 child: Text(
                   'SETTINGS',
-                  style: GoogleFonts.instrumentSerif(fontSize: 45),
+                  style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),
               TextButton.icon(
