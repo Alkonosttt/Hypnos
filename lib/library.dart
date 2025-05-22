@@ -22,6 +22,20 @@ class _LibraryPageState extends State<LibraryPage> {
               style: GoogleFonts.caesarDressing(fontSize: 45),
             ),
           ),
+          Expanded(
+            child: Row(
+              children: [
+                TextButton(
+                  onPressed:
+                      () =>
+                          throw UnimplementedError(
+                            'Button press not yet implemented',
+                          ),
+                  child: Text('set a timer'),
+                ),
+              ],
+            ),
+          ),
           Expanded(child: LibraryGrid()),
         ],
       ),
