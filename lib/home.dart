@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hypnos/library.dart';
 import 'package:hypnos/favourites.dart';
 import 'package:hypnos/settings.dart';
+import 'package:hypnos/timerpicker.dart';
 // Google Nav Bar implementation
 import 'package:hypnos/gnavbar.dart';
 
@@ -24,6 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     LibraryPage(),
     FavouritesPage(),
+    TimerPickerPage(),
     SettingsPage(),
   ];
 
