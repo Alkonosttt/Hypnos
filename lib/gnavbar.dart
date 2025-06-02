@@ -25,6 +25,7 @@ class GNavBar extends StatelessWidget {
         tabs: [
           GButton(icon: Icons.music_note, text: 'library'),
           GButton(icon: Icons.favorite, text: 'favourites'),
+          GButton(icon: Icons.timer, text: 'timer'),
           GButton(icon: Icons.settings, text: 'settings'),
         ],
       ),
