@@ -1,52 +1,57 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+//import 'package:google_fonts/google_fonts.dart';
 // for global audio service, to be able to access the disposeAll function
-import 'globalaudioplayerservice.dart';
+import 'globalaudioplayerservice.dart'; // TimerScreen.dart
 
-class TimerPickerPage extends StatefulWidget {
-  const TimerPickerPage({super.key});
-
+class TimerScreen extends StatefulWidget {
+  const TimerScreen({super.key});
   @override
-  _TimerPickerPageState createState() => _TimerPickerPageState();
+  State<TimerScreen> createState() => _TimerScreenState();
 }
 
-class _TimerPickerPageState extends State<TimerPickerPage> {
-  Duration _duration = Duration(minutes: 10); // default
+final anyAudioPlaying = GlobalAudioService().anyAudioPlaying();
 
-  void startTimer() {
-    Future.delayed(_duration, () {
-      // stops all audio
-      GlobalAudioService().disposeAll();
-      // goes back after timer runs out
-      Navigator.pop(context);
-    });
+class _TimerScreenState extends State<TimerScreen> {
+  Duration selectedDuration = Duration(minutes: 10);
 
-    Navigator.pop(context);
+  void setAndStartTimer() {
+    final audioService = GlobalAudioService();
+    if (anyAudioPlaying) {
+      audioService.startTimer(selectedDuration);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final audioService = GlobalAudioService();
     return Scaffold(
+      appBar: AppBar(title: Text('Timer')),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text('Set a sleep timer'),
-          Slider(
-            value: _duration.inMinutes.toDouble(),
-            min: 1,
-            max: 60,
-            divisions: 59,
-            label: '${_duration.inMinutes} min',
-            onChanged: (value) {
-              setState(() {
-                _duration = Duration(minutes: value.toInt());
-              });
-            },
+          DropdownButton<Duration>(
+            value: selectedDuration,
+            items:
+                [
+                  Duration(minutes: 5),
+                  Duration(minutes: 10),
+                  Duration(minutes: 30),
+                  Duration(hours: 1),
+                ].map((duration) {
+                  return DropdownMenuItem(
+                    value: duration,
+                    child: Text('${duration.inMinutes} min'),
+                  );
+                }).toList(),
+            onChanged: (val) => setState(() => selectedDuration = val!),
           ),
           ElevatedButton(
-            onPressed: startTimer,
-            child: Text('Start', style: GoogleFonts.comfortaa(fontSize: 20)),
+            onPressed: setAndStartTimer,
+            child: Text("Start Timer"),
           ),
+          if (audioService.isTimerRunning)
+            Text(
+              "Time remaining: ${audioService.remainingTime?.inMinutes} min",
+            ),
         ],
       ),
     );

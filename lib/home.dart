@@ -25,7 +25,7 @@ class _HomeScreenState extends State<HomeScreen> {
   final List<Widget> _screens = [
     LibraryPage(),
     FavouritesPage(),
-    TimerPickerPage(),
+    TimerScreen(),
     SettingsPage(),
   ];
 
