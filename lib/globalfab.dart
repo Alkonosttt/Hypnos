@@ -1,20 +1,52 @@
 import 'package:flutter/material.dart';
 import 'globalaudioplayerservice.dart';
+import 'timerpicker.dart';
+import 'package:provider/provider.dart';
 
-class GlobalFAB extends StatelessWidget {
-  final VoidCallback? onPressed;
-  const GlobalFAB({this.onPressed, super.key});
-
+class SleepTimerFAB extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final timer = GlobalAudioService();
-    return Visibility(
-      visible: timer.isTimerRunning,
-      child: FloatingActionButton.extended(
-        onPressed: onPressed,
-        label: Text("⏱ ${timer.remainingTime?.inMinutes ?? 0}m"),
-        icon: Icon(Icons.timer),
-      ),
+    return Consumer<GlobalAudioService>(
+      builder: (context, audioService, child) {
+        if (!audioService.isTimerRunning) {
+          return FloatingActionButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SleepTimerPicker()),
+              );
+            },
+            child: Icon(Icons.bedtime),
+            tooltip: 'Sleep Timer',
+          );
+        }
+
+        final remaining = audioService.remainingTime!;
+        final hours = remaining.inHours;
+        final minutes = remaining.inMinutes % 60;
+        final seconds = remaining.inSeconds % 60;
+
+        String timeText;
+        if (hours > 0) {
+          timeText = '${hours}h ${minutes}m';
+        } else if (minutes > 0) {
+          timeText = '${minutes}m ${seconds}s';
+        } else {
+          timeText = '${seconds}s';
+        }
+
+        return FloatingActionButton.extended(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => SleepTimerPicker()),
+            );
+          },
+          label: Text(timeText),
+          icon: Icon(Icons.timer),
+          backgroundColor: Colors.orange,
+        );
+      },
     );
   }
 }

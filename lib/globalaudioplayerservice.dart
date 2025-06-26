@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'dart:async';
 // standard audio player package
 import 'package:audioplayers/audioplayers.dart';
+// for TimerPicker
+import 'package:shared_preferences/shared_preferences.dart';
 
 class GlobalAudioService extends ChangeNotifier {
   static final GlobalAudioService _instance = GlobalAudioService._internal();
@@ -16,6 +18,8 @@ class GlobalAudioService extends ChangeNotifier {
 
   Timer? _timer;
   Duration? _remainingTime;
+
+  bool _disposed = false;
 
   bool anyAudioPlaying() {
     return _isPlaying.values.any((isPlaying) => isPlaying);
@@ -34,7 +38,7 @@ class GlobalAudioService extends ChangeNotifier {
     _volumes[audioPath] = volume;
     _isPlaying[audioPath] = true;
 
-    notifyListeners();
+    _safeNotifyListeners();
   }
 
   Future<void> pause(String audioPath) async {
@@ -43,7 +47,7 @@ class GlobalAudioService extends ChangeNotifier {
       await player.pause();
       _isPlaying[audioPath] = false;
     }
-    notifyListeners();
+    _safeNotifyListeners();
   }
 
   Future<void> stopAll() async {
@@ -51,7 +55,7 @@ class GlobalAudioService extends ChangeNotifier {
       await player.stop();
     }
     _isPlaying.clear();
-    notifyListeners();
+    _safeNotifyListeners();
   }
 
   Future<void> setVolume(String audioPath, double volume) async {
@@ -60,33 +64,88 @@ class GlobalAudioService extends ChangeNotifier {
       await player.setVolume(volume);
       _volumes[audioPath] = volume;
     }
-    notifyListeners();
+    _safeNotifyListeners();
   }
 
   bool isPlaying(String audioPath) => _isPlaying[audioPath] ?? false;
   double volume(String audioPath) => _volumes[audioPath] ?? 1.0;
 
+  Future<void> _saveTimerState() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (_remainingTime != null) {
+      await prefs.setInt(
+        'timer_end_time',
+        DateTime.now().add(_remainingTime!).millisecondsSinceEpoch,
+      );
+    } else {
+      await prefs.remove('timer_end_time');
+    }
+  }
+
+  Future<void> restoreTimerState() async {
+    final prefs = await SharedPreferences.getInstance();
+    final endTime = prefs.getInt('timer_end_time');
+
+    if (endTime != null) {
+      final now = DateTime.now();
+      final targetTime = DateTime.fromMillisecondsSinceEpoch(endTime);
+
+      if (targetTime.isAfter(now)) {
+        final remaining = targetTime.difference(now);
+        startTimer(remaining);
+      } else {
+        await prefs.remove('timer_end_time');
+        stopAll();
+      }
+    }
+  }
+
   void startTimer(Duration duration) {
     _remainingTime = duration;
     _timer?.cancel();
-    _timer = Timer.periodic(Duration(seconds: 1), (timer) {
+    _saveTimerState();
+
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
       if (_remainingTime == null) {
         timer.cancel();
         return;
       }
-      _remainingTime = _remainingTime! - Duration(seconds: 1);
-      if (_remainingTime!.inSeconds <= 0) {
+
+      _remainingTime = _remainingTime! - const Duration(seconds: 1);
+
+      if (_remainingTime == null || _remainingTime!.inSeconds <= 0) {
         timer.cancel();
         stopAll();
         _remainingTime = null;
+        _saveTimerState();
+        _safeNotifyListeners();
+        return;
       }
-      notifyListeners();
+
+      _safeNotifyListeners();
     });
   }
 
   void cancelTimer() {
     _timer?.cancel();
     _remainingTime = null;
-    notifyListeners();
+    _saveTimerState();
+    _safeNotifyListeners();
+  }
+
+  void _safeNotifyListeners() {
+    if (!_disposed) {
+      notifyListeners();
+    }
+  }
+
+  @override
+  void dispose() {
+    _disposed = true;
+    _timer?.cancel();
+    for (var player in _players.values) {
+      player.dispose();
+    }
+    super.dispose();
   }
 }

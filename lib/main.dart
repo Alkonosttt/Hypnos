@@ -3,10 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:hypnos/home.dart';
 // splash screen
 import 'package:hypnos/splash.dart';
+// global audio service
+import 'package:hypnos/globalaudioplayerservice.dart';
+import 'package:provider/provider.dart';
 
 // TODO: open in Xcode and edit ios/Runner/LaunchScreen.storyboard
 void main() {
-  runApp(const MainApp());
+  runApp(
+    ChangeNotifierProvider(
+      create: (_) => GlobalAudioService(),
+      child: MainApp(),
+    ),
+  );
 }
 
 class MainApp extends StatefulWidget {
