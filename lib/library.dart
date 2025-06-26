@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hypnos/librarygrid.dart';
+import 'package:hypnos/globalfab.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});
@@ -13,6 +14,7 @@ class _LibraryPageState extends State<LibraryPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: SleepTimerFAB(),
       body: Column(
         children: [
           Padding(
