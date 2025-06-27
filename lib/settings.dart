@@ -13,71 +13,59 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  Widget _buildSettingsButton({
+    required IconData icon,
+    required String label,
+    required Widget targetScreen,
+  }) {
+    return TextButton.icon(
+      style: TextButton.styleFrom(foregroundColor: Colors.white),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (_) => targetScreen),
+        );
+      },
+      icon: Icon(icon, size: 30, color: Color(0xFF942F67)),
+      label: Text(label, style: GoogleFonts.comfortaa(fontSize: 30)),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Row(
       children: <Widget>[
-        Expanded(flex: 1, child: SizedBox()),
+        const Expanded(flex: 1, child: SizedBox()),
         Expanded(
           flex: 8,
           child: Column(
             children: [
               Container(
-                margin: EdgeInsets.fromLTRB(0, 70, 0, 50),
+                margin: const EdgeInsets.fromLTRB(0, 70, 0, 50),
                 child: Text(
                   'Settings',
                   style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),
-              TextButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const LoginProfileScreen(),
-                    ),
-                  );
-                },
-                icon: const Icon(Icons.login, size: 30),
-                label: Text(
-                  'log in',
-                  style: GoogleFonts.comfortaa(fontSize: 30),
-                ),
+              _buildSettingsButton(
+                icon: Icons.login,
+                label: 'log in',
+                targetScreen: const LoginProfileScreen(),
               ),
-              TextButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const AboutScreen(),
-                    ),
-                  );
-                },
-                icon: Icon(Icons.info, size: 30),
-                label: Text(
-                  'about',
-                  style: GoogleFonts.comfortaa(fontSize: 30),
-                ),
+              _buildSettingsButton(
+                icon: Icons.info,
+                label: 'about',
+                targetScreen: const AboutScreen(),
               ),
-              TextButton.icon(
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const CreditsScreen(),
-                    ),
-                  );
-                },
-                icon: Icon(Icons.approval_rounded, size: 30),
-                label: Text(
-                  'credits',
-                  style: GoogleFonts.comfortaa(fontSize: 30),
-                ),
+              _buildSettingsButton(
+                icon: Icons.approval_rounded,
+                label: 'credits',
+                targetScreen: const CreditsScreen(),
               ),
             ],
           ),
         ),
-        Expanded(flex: 1, child: SizedBox()),
+        const Expanded(flex: 1, child: SizedBox()),
       ],
     );
   }
