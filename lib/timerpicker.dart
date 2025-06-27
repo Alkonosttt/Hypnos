@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 // for global audio service, to be able to access the disposeAll function
 import 'globalaudioplayerservice.dart';
 // for the spinning picker
 import 'package:flutter/cupertino.dart';
+// for Consumer
 import 'package:provider/provider.dart';
 
 class SleepTimerPicker extends StatefulWidget {
@@ -21,12 +22,15 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
     return Consumer<GlobalAudioService>(
       builder: (context, audioService, child) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Sleep Timer'),
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          ),
           body: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 70, 0, 50),
+                child: Text(
+                  'Sleep Timer',
+                  style: GoogleFonts.caesarDressing(fontSize: 45),
+                ),
+              ),
               Expanded(
                 child: Row(
                   children: [
@@ -55,10 +59,14 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                         style: ElevatedButton.styleFrom(
                           backgroundColor: Colors.red,
                           foregroundColor: Colors.white,
+                          textStyle: GoogleFonts.comfortaa(),
                         ),
                         child: const Text('Cancel Timer'),
                       ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: GoogleFonts.comfortaa(),
+                      ),
                       onPressed: () {
                         final duration = Duration(
                           hours: selectedHours,
@@ -101,7 +109,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(label, style: Theme.of(context).textTheme.titleMedium),
+            child: Text(label, style: GoogleFonts.comfortaa()),
           ),
           Expanded(
             child: CupertinoPicker(
