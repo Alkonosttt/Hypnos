@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// settings screens
+// individual settings screens
 import 'package:hypnos/loginandprofile.dart';
 import 'package:hypnos/about.dart';
 import 'package:hypnos/credits.dart';

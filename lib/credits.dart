@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// to display the .md credits file
 import 'package:markdown_widget/markdown_widget.dart';
 
 class CreditsScreen extends StatefulWidget {

@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'package:google_fonts/google_fonts.dart';
+import 'package:google_fonts/google_fonts.dart';
 // for global audio service, to be able to access the disposeAll function
 import 'globalaudioplayerservice.dart';
 // for the spinning picker
 import 'package:flutter/cupertino.dart';
+// for Consumer
 import 'package:provider/provider.dart';
 
 class SleepTimerPicker extends StatefulWidget {
@@ -21,22 +22,25 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
     return Consumer<GlobalAudioService>(
       builder: (context, audioService, child) {
         return Scaffold(
-          appBar: AppBar(
-            title: const Text('Sleep Timer'),
-            backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-          ),
           body: Column(
             children: [
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 70, 0, 50),
+                child: Text(
+                  'Sleep Timer',
+                  style: GoogleFonts.caesarDressing(fontSize: 45),
+                ),
+              ),
               Expanded(
                 child: Row(
                   children: [
-                    _buildTimeColumn('Hours', 24, selectedHours, (value) {
+                    _buildTimeColumn('hours', 24, selectedHours, (value) {
                       setState(() => selectedHours = value);
                     }),
-                    _buildTimeColumn('Minutes', 60, selectedMinutes, (value) {
+                    _buildTimeColumn('minutes', 60, selectedMinutes, (value) {
                       setState(() => selectedMinutes = value);
                     }),
-                    _buildTimeColumn('Seconds', 60, selectedSeconds, (value) {
+                    _buildTimeColumn('seconds', 60, selectedSeconds, (value) {
                       setState(() => selectedSeconds = value);
                     }),
                   ],
@@ -53,12 +57,18 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                           audioService.cancelTimer();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor: Color(0xFF942F67),
                           foregroundColor: Colors.white,
+                          textStyle: GoogleFonts.comfortaa(),
                         ),
-                        child: const Text('Cancel Timer'),
+                        child: const Text('cancel'),
                       ),
                     ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Color(0xFF942F67),
+                        textStyle: GoogleFonts.comfortaa(),
+                      ),
                       onPressed: () {
                         final duration = Duration(
                           hours: selectedHours,
@@ -78,7 +88,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                           );
                         }
                       },
-                      child: const Text('Start Timer'),
+                      child: const Text('start'),
                     ),
                   ],
                 ),
@@ -101,7 +111,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
         children: [
           Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(label, style: Theme.of(context).textTheme.titleMedium),
+            child: Text(label, style: GoogleFonts.comfortaa()),
           ),
           Expanded(
             child: CupertinoPicker(
