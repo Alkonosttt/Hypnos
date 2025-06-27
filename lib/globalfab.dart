@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
-import 'globalaudioplayerservice.dart';
-import 'timerpicker.dart';
+// for Consumer
 import 'package:provider/provider.dart';
+// global audio service
+import 'globalaudioplayerservice.dart';
+// sleep timer
+import 'timerpicker.dart';
 
 class SleepTimerFAB extends StatelessWidget {
   @override
