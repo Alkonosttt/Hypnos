@@ -14,4 +14,4 @@
 
 ---
 
-*Named after Hypnos, the Greek god of sleep 😴*
+*Named after Hypnos, the Greek god of sleep* 😴
