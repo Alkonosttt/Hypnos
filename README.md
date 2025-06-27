@@ -1,13 +1,17 @@
-# Hypnos
-A minimal ambient sound app built with Flutter, designed to help relax and focus.
+# 🌙 Hypnos
+*A minimal ambient sound app built with Flutter, designed to help you relax and focus.*
 
-(screenshot)
+(Screenshot)
 
-## Features
-- Ambient sound loops
-- Timer for automatic shutdown
-- Creating and saving the sound combinations (to do)
-- Saving the settings using Firebase (to do)
+## ✨ Features
+- 🎵 **Ambient sound loops** - Immersive audio environments
+- ⏰ **Sleep timer** - Automatic shutdown for peaceful nights  
+- 🎛️ **Sound combinations** - Create and save custom mixes *(coming soon)*
+- ☁️ **Cloud sync** - Save your settings with Firebase *(coming soon)*
 
-## Installation
-(installation)
+## 📱 Installation
+*(Installation instructions coming soon)*
+
+---
+
+*Named after Hypnos, the Greek god of sleep 😴*
