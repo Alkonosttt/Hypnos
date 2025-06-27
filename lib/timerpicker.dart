@@ -34,13 +34,13 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
               Expanded(
                 child: Row(
                   children: [
-                    _buildTimeColumn('Hours', 24, selectedHours, (value) {
+                    _buildTimeColumn('hours', 24, selectedHours, (value) {
                       setState(() => selectedHours = value);
                     }),
-                    _buildTimeColumn('Minutes', 60, selectedMinutes, (value) {
+                    _buildTimeColumn('minutes', 60, selectedMinutes, (value) {
                       setState(() => selectedMinutes = value);
                     }),
-                    _buildTimeColumn('Seconds', 60, selectedSeconds, (value) {
+                    _buildTimeColumn('seconds', 60, selectedSeconds, (value) {
                       setState(() => selectedSeconds = value);
                     }),
                   ],
@@ -57,14 +57,16 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                           audioService.cancelTimer();
                         },
                         style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
+                          backgroundColor: Color(0xFF942F67),
                           foregroundColor: Colors.white,
                           textStyle: GoogleFonts.comfortaa(),
                         ),
-                        child: const Text('Cancel Timer'),
+                        child: const Text('cancel'),
                       ),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.white,
+                        foregroundColor: Color(0xFF942F67),
                         textStyle: GoogleFonts.comfortaa(),
                       ),
                       onPressed: () {
@@ -86,7 +88,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                           );
                         }
                       },
-                      child: const Text('Start Timer'),
+                      child: const Text('start'),
                     ),
                   ],
                 ),

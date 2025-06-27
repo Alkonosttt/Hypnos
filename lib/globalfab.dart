@@ -16,8 +16,10 @@ class SleepTimerFAB extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => SleepTimerPicker()),
               );
             },
-            child: Icon(Icons.bedtime),
             tooltip: 'Sleep Timer',
+            backgroundColor: Color(0xFF942F67),
+            foregroundColor: Colors.white,
+            child: Icon(Icons.bedtime),
           );
         }
 
@@ -44,7 +46,8 @@ class SleepTimerFAB extends StatelessWidget {
           },
           label: Text(timeText),
           icon: Icon(Icons.timer),
-          backgroundColor: Colors.orange,
+          backgroundColor: Colors.white,
+          foregroundColor: Color(0xFF942F67),
         );
       },
     );
