@@ -40,6 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
           flex: 8,
           child: Column(
             children: [
+              // Title section - stays at top
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 70, 0, 50),
                 child: Text(
@@ -47,20 +48,28 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),
-              _buildSettingsButton(
-                icon: Icons.login,
-                label: 'log in',
-                targetScreen: const LoginProfileScreen(),
-              ),
-              _buildSettingsButton(
-                icon: Icons.info,
-                label: 'about',
-                targetScreen: const AboutScreen(),
-              ),
-              _buildSettingsButton(
-                icon: Icons.approval_rounded,
-                label: 'credits',
-                targetScreen: const CreditsScreen(),
+              // Buttons section - centered in remaining space
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    _buildSettingsButton(
+                      icon: Icons.login,
+                      label: 'log in',
+                      targetScreen: const LoginProfileScreen(),
+                    ),
+                    _buildSettingsButton(
+                      icon: Icons.info,
+                      label: 'about',
+                      targetScreen: const AboutScreen(),
+                    ),
+                    _buildSettingsButton(
+                      icon: Icons.approval_rounded,
+                      label: 'credits',
+                      targetScreen: const CreditsScreen(),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
