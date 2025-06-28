@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+// for Consumer
+import 'package:provider/provider.dart';
 // global audio service
 import 'globalaudioplayerservice.dart';
 
@@ -83,67 +85,88 @@ class _LibraryGridState extends State<LibraryGrid> {
 
   @override
   Widget build(BuildContext context) {
-    return GridView.builder(
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        // two columns of library items
-        crossAxisCount: 2,
-        childAspectRatio: 0.75,
-      ),
-      itemCount: audioItems.length,
-      itemBuilder: (context, index) {
-        final item = audioItems[index];
-        final isPlaying = GlobalAudioService().isPlaying(item.audioPath);
-        final volume = GlobalAudioService().volume(item.audioPath);
-        return Card(
-          elevation: 4,
-          child: Column(
-            children: [
-              GestureDetector(
-                onTap: () => togglePlay(item),
-                // play icon overlayed on the photo
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    Image.asset(item.imagePath, height: 120, fit: BoxFit.cover),
-                    if (!isPlaying)
-                      Icon(
-                        Icons.play_circle_fill,
-                        size: 48,
-                        color: Colors.white,
-                      ),
-                    if (isPlaying)
-                      Icon(
-                        Icons.pause_circle_filled,
-                        size: 48,
-                        color: Colors.white,
-                      ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: EdgeInsets.fromLTRB(5, 0, 5, 0),
-                child: Column(
-                  children: [
-                    // display name
-                    Padding(
-                      padding: const EdgeInsets.only(top: 15),
-                      child: Text(
-                        item.displayName,
-                        style: GoogleFonts.comfortaa(fontSize: 20),
-                      ),
-                    ),
-                    // volume slider
-                    Slider(
-                      value: volume,
-                      onChanged: (v) => changeVolume(item, v),
-                      min: 0.0,
-                      max: 1.0,
-                    ),
-                  ],
-                ),
-              ),
-            ],
+    return Consumer<GlobalAudioService>(
+      builder: (context, audioService, _) {
+        return GridView.builder(
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 0.75,
           ),
+          itemCount: audioItems.length,
+          itemBuilder: (context, index) {
+            final item = audioItems[index];
+            final isPlaying = audioService.isPlaying(item.audioPath);
+            final volume = audioService.volume(item.audioPath);
+
+            return Card(
+              elevation: 4,
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTap: () => togglePlay(item),
+                    child: ColorFiltered(
+                      colorFilter:
+                          isPlaying
+                              ? const ColorFilter.mode(
+                                Colors.transparent,
+                                BlendMode.multiply,
+                              )
+                              : const ColorFilter.matrix(<double>[
+                                0.2126,
+                                0.7152,
+                                0.0722,
+                                0,
+                                0,
+                                0.2126,
+                                0.7152,
+                                0.0722,
+                                0,
+                                0,
+                                0.2126,
+                                0.7152,
+                                0.0722,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0,
+                                1,
+                                0,
+                              ]),
+                      child: Image.asset(
+                        item.imagePath,
+                        height: 120,
+                        width: double.infinity,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(5, 0, 5, 0),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 15),
+                          child: Text(
+                            item.displayName,
+                            style: GoogleFonts.comfortaa(fontSize: 20),
+                          ),
+                        ),
+                        if (isPlaying)
+                          Slider(
+                            value: volume,
+                            onChanged: (v) => changeVolume(item, v),
+                            min: 0.0,
+                            max: 1.0,
+                            activeColor: const Color(0xFF942F67),
+                          ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );

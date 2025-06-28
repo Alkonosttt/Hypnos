@@ -40,7 +40,6 @@ class _SettingsPageState extends State<SettingsPage> {
           flex: 8,
           child: Column(
             children: [
-              // Title section - stays at top
               Container(
                 margin: const EdgeInsets.fromLTRB(0, 70, 0, 50),
                 child: Text(
@@ -48,7 +47,6 @@ class _SettingsPageState extends State<SettingsPage> {
                   style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),
-              // Buttons section - centered in remaining space
               Expanded(
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
