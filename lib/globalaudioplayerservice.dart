@@ -19,6 +19,9 @@ class GlobalAudioService extends ChangeNotifier {
   Timer? _timer;
   Duration? _remainingTime;
 
+  bool _isTimerPaused = false;
+  Duration? _pausedRemainingTime;
+
   bool _disposed = false;
 
   bool anyAudioPlaying() {
@@ -26,6 +29,7 @@ class GlobalAudioService extends ChangeNotifier {
   }
 
   bool get isTimerRunning => _timer?.isActive ?? false;
+  bool get isTimerPaused => _isTimerPaused;
   Duration? get remainingTime => _remainingTime;
 
   Future<void> play(String audioPath, {double volume = 1.0}) async {
@@ -102,6 +106,8 @@ class GlobalAudioService extends ChangeNotifier {
 
   void startTimer(Duration duration) {
     _remainingTime = duration;
+    _isTimerPaused = false;
+    _pausedRemainingTime = null;
     _timer?.cancel();
     _saveTimerState();
 
@@ -113,7 +119,7 @@ class GlobalAudioService extends ChangeNotifier {
 
       _remainingTime = _remainingTime! - const Duration(seconds: 1);
 
-      if (_remainingTime == null || _remainingTime!.inSeconds <= 0) {
+      if (_remainingTime!.inSeconds <= 0) {
         timer.cancel();
         stopAll();
         _remainingTime = null;
@@ -124,11 +130,35 @@ class GlobalAudioService extends ChangeNotifier {
 
       _safeNotifyListeners();
     });
+
+    _safeNotifyListeners();
+  }
+
+  // ✅ NEW: Pause timer
+  void pauseTimer() {
+    if (!isTimerRunning || _isTimerPaused) return;
+
+    _timer?.cancel();
+    _pausedRemainingTime = _remainingTime;
+    _isTimerPaused = true;
+    _saveTimerState();
+    _safeNotifyListeners();
+  }
+
+  void resumeTimer() {
+    if (!_isTimerPaused || _pausedRemainingTime == null) return;
+
+    startTimer(_pausedRemainingTime!); // resets and restarts
+    _isTimerPaused = false;
+    _pausedRemainingTime = null;
+    _safeNotifyListeners();
   }
 
   void cancelTimer() {
     _timer?.cancel();
     _remainingTime = null;
+    _pausedRemainingTime = null;
+    _isTimerPaused = false;
     _saveTimerState();
     _safeNotifyListeners();
   }

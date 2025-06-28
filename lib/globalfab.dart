@@ -11,12 +11,15 @@ class SleepTimerFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<GlobalAudioService>(
       builder: (context, audioService, child) {
-        if (!audioService.isTimerRunning) {
-          // hides the FAB when the timer is off
+        final remaining = audioService.remainingTime;
+
+        // Hide FAB if timer is off or completed
+        if (remaining == null) {
           return SizedBox.shrink();
         }
 
-        final remaining = audioService.remainingTime!;
+        final isPaused = audioService.isTimerPaused;
+
         final hours = remaining.inHours;
         final minutes = remaining.inMinutes % 60;
         final seconds = remaining.inSeconds % 60;
@@ -32,15 +35,19 @@ class SleepTimerFAB extends StatelessWidget {
 
         return FloatingActionButton.extended(
           onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => SleepTimerPicker()),
-            );
+            if (isPaused) {
+              audioService.resumeTimer();
+            } else {
+              audioService.pauseTimer();
+            }
           },
-          label: Text(timeText),
-          icon: Icon(Icons.timer),
-          backgroundColor: Colors.white,
-          foregroundColor: Color(0xFF942F67),
+          label: Text(
+            isPaused ? 'Paused: $timeText' : timeText,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+          icon: Icon(isPaused ? Icons.play_arrow : Icons.pause),
+          backgroundColor: isPaused ? Colors.grey[200] : Colors.white,
+          foregroundColor: const Color(0xFF942F67),
         );
       },
     );

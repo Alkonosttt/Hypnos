@@ -19,18 +19,66 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
 
   @override
   Widget build(BuildContext context) {
+    Widget _buildTimeColumn(
+      String label,
+      int max,
+      int selectedValue,
+      void Function(int) onSelectedItemChanged,
+    ) {
+      return Expanded(
+        child: Column(
+          children: [
+            Text(label, style: GoogleFonts.comfortaa(fontSize: 18)),
+            Expanded(
+              child: CupertinoPicker(
+                scrollController: FixedExtentScrollController(
+                  initialItem: selectedValue,
+                ),
+                itemExtent: 32.0,
+                onSelectedItemChanged: onSelectedItemChanged,
+                children: List<Widget>.generate(
+                  max,
+                  (index) =>
+                      Center(child: Text(index.toString().padLeft(2, '0'))),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
     return Consumer<GlobalAudioService>(
       builder: (context, audioService, child) {
+        final remaining = audioService.remainingTime;
+        final isRunning = audioService.isTimerRunning;
+        final isPaused = audioService.isTimerPaused;
+
+        String timeText;
+        if (remaining != null) {
+          final hours = remaining.inHours;
+          final minutes = remaining.inMinutes % 60;
+          final seconds = remaining.inSeconds % 60;
+          timeText =
+              '${hours.toString().padLeft(2, '0')}:'
+              '${minutes.toString().padLeft(2, '0')}:'
+              '${seconds.toString().padLeft(2, '0')}';
+        } else {
+          timeText = '00:00';
+        }
+
         return Scaffold(
           body: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.fromLTRB(0, 70, 0, 50),
+                padding: const EdgeInsets.fromLTRB(0, 70, 0, 20),
                 child: Text(
                   'Sleep Timer',
                   style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),
+              Text(timeText, style: GoogleFonts.comfortaa(fontSize: 28)),
+              const SizedBox(height: 20),
               Expanded(
                 child: Row(
                   children: [
@@ -51,7 +99,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    if (audioService.isTimerRunning)
+                    if (isRunning)
                       ElevatedButton(
                         onPressed: () {
                           audioService.cancelTimer();
@@ -63,33 +111,49 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                         ),
                         child: const Text('cancel'),
                       ),
-                    ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.white,
-                        foregroundColor: Color(0xFF942F67),
-                        textStyle: GoogleFonts.comfortaa(),
+                    if (isRunning)
+                      ElevatedButton(
+                        onPressed: () {
+                          if (isPaused) {
+                            audioService.resumeTimer();
+                          } else {
+                            audioService.pauseTimer();
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Color(0xFF942F67),
+                          textStyle: GoogleFonts.comfortaa(),
+                        ),
+                        child: Text(isPaused ? 'resume' : 'pause'),
                       ),
-                      onPressed: () {
-                        final duration = Duration(
-                          hours: selectedHours,
-                          minutes: selectedMinutes,
-                          seconds: selectedSeconds,
-                        );
-                        if (duration.inSeconds > 0) {
-                          audioService.startTimer(duration);
-                          //Navigator.pop(context);
-                        } else {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Please select a time greater than 0',
-                              ),
-                            ),
+                    if (!isRunning)
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.white,
+                          foregroundColor: Color(0xFF942F67),
+                          textStyle: GoogleFonts.comfortaa(),
+                        ),
+                        onPressed: () {
+                          final duration = Duration(
+                            hours: selectedHours,
+                            minutes: selectedMinutes,
+                            seconds: selectedSeconds,
                           );
-                        }
-                      },
-                      child: const Text('start'),
-                    ),
+                          if (duration.inSeconds > 0) {
+                            audioService.startTimer(duration);
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text(
+                                  'Please select a time greater than 0',
+                                ),
+                              ),
+                            );
+                          }
+                        },
+                        child: const Text('start'),
+                      ),
                   ],
                 ),
               ),
@@ -97,41 +161,6 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
           ),
         );
       },
-    );
-  }
-
-  Widget _buildTimeColumn(
-    String label,
-    int count,
-    int initialValue,
-    void Function(int) onChanged,
-  ) {
-    return Expanded(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(label, style: GoogleFonts.comfortaa()),
-          ),
-          Expanded(
-            child: CupertinoPicker(
-              itemExtent: 60,
-              scrollController: FixedExtentScrollController(
-                initialItem: initialValue,
-              ),
-              onSelectedItemChanged: onChanged,
-              children: List.generate(count, (index) {
-                return Center(
-                  child: Text(
-                    index.toString().padLeft(2, '0'),
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                );
-              }),
-            ),
-          ),
-        ],
-      ),
     );
   }
 }
