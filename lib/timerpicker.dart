@@ -77,7 +77,6 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                   style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),
-              Text(timeText, style: GoogleFonts.comfortaa(fontSize: 28)),
               const SizedBox(height: 20),
               Expanded(
                 child: Row(
@@ -94,6 +93,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                   ],
                 ),
               ),
+              Text(timeText, style: GoogleFonts.comfortaa(fontSize: 28)),
               Padding(
                 padding: const EdgeInsets.all(20),
                 child: Row(
@@ -152,7 +152,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
                             );
                           }
                         },
-                        child: const Text('start'),
+                        child: const Text('set'),
                       ),
                   ],
                 ),
