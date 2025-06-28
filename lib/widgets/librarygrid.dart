@@ -3,7 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 // for Consumer
 import 'package:provider/provider.dart';
 // global audio service
-import 'globalaudioplayerservice.dart';
+import '../services/globalaudioplayerservice.dart';
 
 class SoundItem {
   // image names match the corresponding audio names

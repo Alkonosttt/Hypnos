@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // library entries
-import 'package:hypnos/librarygrid.dart';
+import 'package:hypnos/widgets/librarygrid.dart';
 // timer button
-import 'package:hypnos/globalfab.dart';
+import 'package:hypnos/widgets/globalfab.dart';
 
 class LibraryPage extends StatefulWidget {
   const LibraryPage({super.key});

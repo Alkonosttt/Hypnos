@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 // app screens
-import 'package:hypnos/library.dart';
-import 'package:hypnos/favourites.dart';
-import 'package:hypnos/settings.dart';
-import 'package:hypnos/timerpicker.dart';
+import 'package:hypnos/screens/library.dart';
+import 'package:hypnos/screens/favourites.dart';
+import 'package:hypnos/screens/settings.dart';
+import 'package:hypnos/screens/timerpicker.dart';
 // Google Nav Bar implementation
-import 'package:hypnos/gnavbar.dart';
+import 'package:hypnos/widgets/gnavbar.dart';
 
 void main() {
   runApp(const HomeScreen());

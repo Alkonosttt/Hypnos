@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // for global audio service, to be able to access the disposeAll function
-import 'globalaudioplayerservice.dart';
+import '../services/globalaudioplayerservice.dart';
 // for the spinning picker
 import 'package:flutter/cupertino.dart';
 // for Consumer

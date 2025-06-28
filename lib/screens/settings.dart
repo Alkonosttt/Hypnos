@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // individual settings screens
-import 'package:hypnos/loginandprofile.dart';
-import 'package:hypnos/about.dart';
-import 'package:hypnos/credits.dart';
+import 'package:hypnos/screens/loginandprofile.dart';
+import 'package:hypnos/screens/about.dart';
+import 'package:hypnos/screens/credits.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});

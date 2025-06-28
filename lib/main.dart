@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 // for ChangeNotifier
 import 'package:provider/provider.dart';
 // home screen
-import 'package:hypnos/home.dart';
+import 'package:hypnos/screens/home.dart';
 // splash screen
-import 'package:hypnos/splash.dart';
+import 'package:hypnos/screens/splash.dart';
 // global audio service
-import 'package:hypnos/globalaudioplayerservice.dart';
+import 'package:hypnos/services/globalaudioplayerservice.dart';
 
 // TODO: open in Xcode and edit ios/Runner/LaunchScreen.storyboard
 void main() {
