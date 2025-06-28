@@ -12,18 +12,8 @@ class SleepTimerFAB extends StatelessWidget {
     return Consumer<GlobalAudioService>(
       builder: (context, audioService, child) {
         if (!audioService.isTimerRunning) {
-          return FloatingActionButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => SleepTimerPicker()),
-              );
-            },
-            tooltip: 'Sleep Timer',
-            backgroundColor: Color(0xFF942F67),
-            foregroundColor: Colors.white,
-            child: Icon(Icons.bedtime),
-          );
+          // hides the FAB when the timer is off
+          return SizedBox.shrink();
         }
 
         final remaining = audioService.remainingTime!;
