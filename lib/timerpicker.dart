@@ -8,18 +8,19 @@ import 'package:flutter/cupertino.dart';
 import 'package:provider/provider.dart';
 
 class SleepTimerPicker extends StatefulWidget {
+  const SleepTimerPicker({super.key});
   @override
-  _SleepTimerPickerState createState() => _SleepTimerPickerState();
+  SleepTimerPickerState createState() => SleepTimerPickerState();
 }
 
-class _SleepTimerPickerState extends State<SleepTimerPicker> {
+class SleepTimerPickerState extends State<SleepTimerPicker> {
   int selectedHours = 0;
   int selectedMinutes = 30;
   int selectedSeconds = 0;
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildTimeColumn(
+    Widget buildTimeColumn(
       String label,
       int max,
       int selectedValue,
@@ -63,6 +64,15 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
               '${hours.toString().padLeft(2, '0')}:'
               '${minutes.toString().padLeft(2, '0')}:'
               '${seconds.toString().padLeft(2, '0')}';
+        } else if (audioService.lastSetDuration != null) {
+          final last = audioService.lastSetDuration!;
+          final hours = last.inHours;
+          final minutes = last.inMinutes % 60;
+          final seconds = last.inSeconds % 60;
+          timeText =
+              '${hours.toString().padLeft(2, '0')}:'
+              '${minutes.toString().padLeft(2, '0')}:'
+              '${seconds.toString().padLeft(2, '0')} (last)';
         } else {
           timeText = '00:00';
         }
@@ -73,7 +83,7 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
               Padding(
                 padding: const EdgeInsets.fromLTRB(0, 70, 0, 20),
                 child: Text(
-                  'Sleep Timer',
+                  'Timer',
                   style: GoogleFonts.caesarDressing(fontSize: 45),
                 ),
               ),
@@ -81,13 +91,13 @@ class _SleepTimerPickerState extends State<SleepTimerPicker> {
               Expanded(
                 child: Row(
                   children: [
-                    _buildTimeColumn('hours', 24, selectedHours, (value) {
+                    buildTimeColumn('hours', 24, selectedHours, (value) {
                       setState(() => selectedHours = value);
                     }),
-                    _buildTimeColumn('minutes', 60, selectedMinutes, (value) {
+                    buildTimeColumn('minutes', 60, selectedMinutes, (value) {
                       setState(() => selectedMinutes = value);
                     }),
-                    _buildTimeColumn('seconds', 60, selectedSeconds, (value) {
+                    buildTimeColumn('seconds', 60, selectedSeconds, (value) {
                       setState(() => selectedSeconds = value);
                     }),
                   ],

@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 // for Consumer
 import 'package:provider/provider.dart';
 // global audio service
 import 'globalaudioplayerservice.dart';
-// sleep timer
-import 'timerpicker.dart';
 
 class SleepTimerFAB extends StatelessWidget {
+  const SleepTimerFAB({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Consumer<GlobalAudioService>(
       builder: (context, audioService, child) {
         final remaining = audioService.remainingTime;
 
-        // Hide FAB if timer is off or completed
+        // hides FAB if timer is off or completed
         if (remaining == null) {
           return SizedBox.shrink();
         }
@@ -42,8 +43,8 @@ class SleepTimerFAB extends StatelessWidget {
             }
           },
           label: Text(
-            isPaused ? 'Paused: $timeText' : timeText,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            isPaused ? 'paused: $timeText' : timeText,
+            style: GoogleFonts.comfortaa(),
           ),
           icon: Icon(isPaused ? Icons.play_arrow : Icons.pause),
           backgroundColor: isPaused ? Colors.grey[200] : Colors.white,

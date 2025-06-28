@@ -22,7 +22,7 @@ class _LibraryPageState extends State<LibraryPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(0, 70, 0, 50),
             child: Text(
-              'Ambient library',
+              'Library',
               style: GoogleFonts.caesarDressing(fontSize: 45),
             ),
           ),

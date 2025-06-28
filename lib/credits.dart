@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:markdown_widget/markdown_widget.dart';
-import 'package:markdown_widget/config/configs.dart'; // Important
 
 class CreditsScreen extends StatefulWidget {
   const CreditsScreen({super.key});
