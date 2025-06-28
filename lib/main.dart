@@ -7,13 +7,18 @@ import 'package:hypnos/screens/home.dart';
 import 'package:hypnos/screens/splash.dart';
 // global audio service
 import 'package:hypnos/services/globalaudioplayerservice.dart';
+// favourite service
+import 'package:hypnos/services/favouritesservice.dart';
 
 // TODO: open in Xcode and edit ios/Runner/LaunchScreen.storyboard
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (_) => GlobalAudioService(),
-      child: MainApp(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => GlobalAudioService()),
+        ChangeNotifierProvider(create: (_) => FavouritesService()),
+      ],
+      child: const MainApp(),
     ),
   );
 }
