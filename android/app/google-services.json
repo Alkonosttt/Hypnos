@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "149982004016",
+    "project_id": "hypnos-fc0b1",
+    "storage_bucket": "hypnos-fc0b1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:149982004016:android:cb35d0974944f2ce913ef5",
+        "android_client_info": {
+          "package_name": "com.alkonosttt.hypnos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXr9_Nr4DT0u8bOv54Oj9SPr1pdk6zDQM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

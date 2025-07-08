@@ -16,6 +16,7 @@ dependencies:
   google_nav_bar: ^5.0.7
   markdown_widget: ^2.3.2+8
   audioplayers: ^5.2.0
+  cloud_firestore: ^5.6.11
 
 dev_dependencies:
   flutter_test:
