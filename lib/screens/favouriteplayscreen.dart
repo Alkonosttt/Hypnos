@@ -1,32 +1,13 @@
 import 'package:flutter/material.dart';
+// global audio service
 import 'package:hypnos/services/globalaudioplayerservice.dart';
 import 'package:hypnos/models/favouritesmodels.dart';
 import 'package:provider/provider.dart';
+// favourites service
 import 'package:hypnos/services/favouritesservice.dart';
-
-// TODO: move this to a separate file and import it
-final Map<String, String> displayNames = {
-  '40_hz_binaural.mp3': '40 HZ',
-  'airplane_ambience.mp3': 'airplane',
-  'calming_rain.mp3': 'downpour',
-  'ceiling_fan_closeup_hum.mp3': 'ceiling fan',
-  'cicada_buzzing.mp3': 'cicada',
-  'creek.mp3': 'creek',
-  'cricket.mp3': 'cricket',
-  'fire_sound.mp3': 'fire',
-  'forest_bird_harmonies.mp3': 'tropical birds',
-  'frogs_croaking.mp3': 'frogs',
-  'inside_old_train.mp3': 'old train',
-  'light_rain.mp3': 'light rain',
-  'ocean_waves.mp3': 'ocean waves',
-  'pendulum_clock_tic_tac.mp3': 'pendulum clock',
-  'soft_wind.mp3': 'soft wind',
-  'swamp_woods.mp3': 'swamp woods',
-  'thunderstorm.mp3': 'thunderstorm',
-  'ticking_clock.mp3': 'clock',
-  'typing_on_laptop_keyboard.mp3': 'laptop keyboard',
-  'wind_blowing.mp3': 'wind',
-};
+import 'package:google_fonts/google_fonts.dart';
+// for a map of display- and file names
+import 'package:hypnos/constants/displaynames.dart';
 
 class FavouritePlayScreen extends StatefulWidget {
   final FavouriteSet set;
@@ -91,28 +72,11 @@ class _FavouritePlayScreenState extends State<FavouritePlayScreen> {
     final isAnyPlaying = anyIsPlaying();
 
     return Scaffold(
-      appBar: AppBar(title: Text(widget.set.name)),
+      appBar: AppBar(
+        title: Text(widget.set.name, style: GoogleFonts.comfortaa()),
+      ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: ElevatedButton.icon(
-              icon: Icon(isAnyPlaying ? Icons.pause : Icons.play_arrow),
-              label: Text(isAnyPlaying ? 'Pause All' : 'Play All'),
-              onPressed: () {
-                if (isAnyPlaying) {
-                  pauseAll();
-                } else {
-                  playAll();
-                }
-
-                // delay rebuild to reflect audio state
-                Future.delayed(Duration(milliseconds: 200), () {
-                  setState(() {});
-                });
-              },
-            ),
-          ),
           Expanded(
             child: ListView.builder(
               itemCount: widget.set.items.length,
@@ -128,7 +92,7 @@ class _FavouritePlayScreenState extends State<FavouritePlayScreen> {
                 return Column(
                   children: [
                     ListTile(
-                      title: Text(display),
+                      title: Text(display, style: GoogleFonts.comfortaa()),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
@@ -168,9 +132,34 @@ class _FavouritePlayScreenState extends State<FavouritePlayScreen> {
                       },
                       min: 0.0,
                       max: 1.0,
+                      activeColor: const Color(0xFF942F67),
                     ),
                   ],
                 );
+              },
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(12.0),
+            child: ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.white,
+                foregroundColor: Color(0xFF942F67),
+                textStyle: GoogleFonts.comfortaa(),
+              ),
+              icon: Icon(isAnyPlaying ? Icons.pause : Icons.play_arrow),
+              label: Text(isAnyPlaying ? 'pause all' : 'play all'),
+              onPressed: () {
+                if (isAnyPlaying) {
+                  pauseAll();
+                } else {
+                  playAll();
+                }
+
+                // delay rebuild to reflect audio state
+                Future.delayed(Duration(milliseconds: 200), () {
+                  setState(() {});
+                });
               },
             ),
           ),
