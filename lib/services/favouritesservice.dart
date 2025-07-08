@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:hypnos/models/favouritesmodels.dart';
 
 class FavouritesService extends ChangeNotifier {
+  // ignore: prefer_final_fields
   List<FavouriteSet> _favourites = [];
 
   List<FavouriteSet> get favourites => _favourites;
