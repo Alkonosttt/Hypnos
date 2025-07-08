@@ -49,6 +49,7 @@ class _MainAppState extends State<MainApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       themeMode: ThemeMode.dark,
+      debugShowCheckedModeBanner: false,
       title: 'Hypnos',
       theme: ThemeData(
         brightness: Brightness.dark,
