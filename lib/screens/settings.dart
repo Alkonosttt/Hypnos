@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 // individual settings screens
-import 'package:hypnos/screens/loginandprofile.dart';
 import 'package:hypnos/screens/about.dart';
 import 'package:hypnos/screens/credits.dart';
+// for Firebase auth
+import 'package:hypnos/services/googleauthservice.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -51,11 +52,26 @@ class _SettingsPageState extends State<SettingsPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    _buildSettingsButton(
-                      icon: Icons.login,
-                      label: 'log in',
-                      targetScreen: const LoginProfileScreen(),
+                    TextButton.icon(
+                      onPressed: () async {
+                        final userCredential = await signInWithGoogle();
+                        if (userCredential != null) {
+                          final user = userCredential.user;
+                          print('Signed in as ${user?.displayName}');
+                          // TODO: Save/display user info
+                        }
+                      },
+                      icon: Icon(
+                        Icons.login,
+                        size: 30,
+                        color: Color(0xFF942F67),
+                      ),
+                      label: Text(
+                        'Sign in with Google',
+                        style: GoogleFonts.comfortaa(fontSize: 30),
+                      ),
                     ),
+
                     _buildSettingsButton(
                       icon: Icons.info,
                       label: 'about',

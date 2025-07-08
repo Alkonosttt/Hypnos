@@ -17,6 +17,9 @@ dependencies:
   markdown_widget: ^2.3.2+8
   audioplayers: ^5.2.0
   cloud_firestore: ^5.6.11
+  firebase_core: ^3.15.1
+  firebase_auth: ^5.6.2
+  google_sign_in: ^7.1.0
 
 dev_dependencies:
   flutter_test:

@@ -9,9 +9,12 @@ import 'package:hypnos/screens/splash.dart';
 import 'package:hypnos/services/globalaudioplayerservice.dart';
 // favourite service
 import 'package:hypnos/services/favouritesservice.dart';
+// Firebase service
+import 'package:firebase_core/firebase_core.dart';
 
-// TODO: open in Xcode and edit ios/Runner/LaunchScreen.storyboard
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // ensures Firebase can initialize
+  await Firebase.initializeApp(); // initializes Firebase
   runApp(
     MultiProvider(
       providers: [
@@ -37,7 +40,7 @@ class _MainAppState extends State<MainApp> {
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration(seconds: 3), () {
+    Future.delayed(const Duration(seconds: 3), () {
       setState(() {
         _showSplash = false;
       });
@@ -58,7 +61,7 @@ class _MainAppState extends State<MainApp> {
           displayLarge: TextStyle(color: Colors.white),
         ),
       ),
-      home: _showSplash ? SplashScreen() : HomeScreen(),
+      home: _showSplash ? const SplashScreen() : const HomeScreen(),
     );
   }
 }

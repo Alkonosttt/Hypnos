@@ -11,6 +11,16 @@ android {
     namespace = "com.example.hypnos"
     compileSdk = flutter.compileSdkVersion
 
+    signingConfigs {
+    getByName("debug") {
+        storeFile = file("${System.getProperty("user.home")}/.android/debug.keystore")
+        storePassword = "android"
+        keyAlias = "AndroidDebugKey"
+        keyPassword = "android"
+    }
+}
+
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -37,6 +47,9 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
+        getByName("debug") {
+            signingConfig = signingConfigs.getByName("debug")
+        }
     }
 }
 
@@ -45,3 +58,9 @@ flutter {
 }
 
 apply(plugin = "com.google.gms.google-services")
+
+
+dependencies {
+    implementation("com.google.firebase:firebase-auth-ktx:22.3.0")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
+}
