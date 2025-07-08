@@ -31,7 +31,13 @@ class FavouritesPage extends StatelessWidget {
                 final fav = favourites[index];
                 return Card(
                   child: ListTile(
-                    title: Text(fav.name),
+                    title: Text(
+                      fav.name,
+                      style: GoogleFonts.comfortaa(
+                        color: Color(0xFF942F67),
+                        fontSize: 18,
+                      ),
+                    ),
                     subtitle: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children:
@@ -42,7 +48,7 @@ class FavouritesPage extends StatelessWidget {
                                       .split('/')
                                       .last
                                       .replaceAll('.mp3', ''),
-                              style: TextStyle(fontSize: 14),
+                              style: GoogleFonts.comfortaa(fontSize: 14),
                             );
                           }).toList(),
                     ),

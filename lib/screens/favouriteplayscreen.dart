@@ -73,7 +73,10 @@ class _FavouritePlayScreenState extends State<FavouritePlayScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.set.name, style: GoogleFonts.comfortaa()),
+        title: Text(
+          widget.set.name,
+          style: GoogleFonts.comfortaa(color: Color(0xFF942F67)),
+        ),
       ),
       body: Column(
         children: [
